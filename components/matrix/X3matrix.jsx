@@ -119,15 +119,7 @@ const X3matrix = (props) => {
         <div className="holder">
           <div className="matrix-head">
             <div className="level">{props.id}</div>
-            <button
-              className="buy-level"
-              onClick={async () => {
-                await buyLevel(1, id, cost, props.account);
-              }}
-            >
-              <IoIosCart color="#9865ec" fontSize="40px" /> for
-              <br /> {props.cost}TRX
-            </button>
+            <button className="buy-level">{props.cost} TRX</button>
           </div>
           <ReferalLine exist1={exist1} exist2={exist2} exist3={false} />
         </div>
