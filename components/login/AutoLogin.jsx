@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import Web3 from "web3";
+
 import { ABI, ADDRESS, OWNER } from "../../utils/globals";
-import { loadWeb3 } from "../../utils/utility";
+
 import Router from "next/router";
 import AccountContext from "../../Layout/AccountContext";
 
@@ -9,19 +9,23 @@ class AutoLogin extends Component {
   static contextType = AccountContext;
 
   async loadBlockchainData() {
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ account: accounts[0] });
+    try {
+      let contract = await tronWeb.contract(ABI, ADDRESS);
+      this.setState({ contract });
+      const accounts = await tronWeb.defaultAddress.base58;
+      this.setState({ account: accounts });
 
-    const contract = new web3.eth.Contract(ABI, ADDRESS);
-    this.setState({ contract });
-    const isExists = await contract.methods
-      .isUserExists(this.state.account)
-      .call();
-    this.setState({ isExist: isExists });
-    const costs = await contract.methods.registrationCost().call();
-    this.setState({ cost: costs });
-    this.setState({ isLoading: false });
+      const isExists = await contract.methods
+        .isUserExists(this.state.account)
+        .call();
+      this.setState({ isExist: isExists });
+      const costs = await contract.methods.levelPrice(1).call();
+      const _cost = costs * 2;
+      this.setState({ cost: _cost });
+      this.setState({ isLoading: false });
+    } catch (err) {
+      window.alert(err);
+    }
   }
 
   constructor(props) {
@@ -37,16 +41,18 @@ class AutoLogin extends Component {
 
   async register(_refererAddress) {
     this.setState({ loading: true });
-    await loadWeb3();
+
     await this.loadBlockchainData();
+    console.log(this.state);
     if (this.state.isExist) {
       Router.push("/dashboard");
       this.setState({ loading: false });
     } else {
-      await this.state.contract.methods
+      console.log(this.state);
+      await this.state.contract
         .registrationExt(_refererAddress)
         .send({
-          value: this.state.cost,
+          callValue: this.state.cost,
           from: this.state.account,
         })
         .then(function (receipt) {
@@ -70,7 +76,7 @@ class AutoLogin extends Component {
           }}
         >
           <button className="auto">
-            {!isLoading ? <b>Authorisation</b> : <b>Loading</b>}
+            {!isLoading ? <b>Authorization</b> : <b>Loading</b>}
           </button>
         </form>
         <style jsx>{`

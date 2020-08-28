@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import X3MatrixHolder from "./X3MatrixHolder";
 import X4MatrixHolder from "./X4MatrixHolder";
-import Web3 from "web3";
+
 import { ABI, ADDRESS } from "../../utils/globals";
-import { loadWeb3 } from "../../utils/utility";
+// import { loadTronWeb } from "../../utils/utility";
 import Router from "next/router";
 
 // Context API
@@ -13,7 +13,7 @@ class MatrixSystem extends Component {
   static contextType = AccountContext;
   async componentDidMount() {
     try {
-      await loadWeb3();
+      // await loadTronWeb();
       await this.loadBlockchainData();
       this.loadX3();
       this.loadX4();
@@ -24,10 +24,9 @@ class MatrixSystem extends Component {
 
   async loadBlockchainData() {
     try {
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      const contract = await tronWeb.contract().at(ADDRESS);
       this.setState({ contract });
-      const costs = await contract.methods.registrationCost().call();
+      const costs = await contract.methods.levelPrice(1).call();
       this.setState({ cost: costs });
     } catch (err) {
       window.alert("Something went wrong.. Check: " + err);
@@ -47,7 +46,7 @@ class MatrixSystem extends Component {
   async loadX3() {
     try {
       const x3 = [];
-      for (let i = 1; i < 13; i++) {
+      for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
           .usersX3Matrix(this.context.account, i)
           .call();
@@ -58,8 +57,8 @@ class MatrixSystem extends Component {
       }
 
       const elementsX3 = [];
-      var _cost = this.state.cost / 2;
-      for (let i = 0; i < 12; i++) {
+      var _cost = this.state.cost / 1000000;
+      for (let i = 0; i < 20; i++) {
         let j = i + 1;
 
         const downlines = x3[i].userX3[1].length;
@@ -75,7 +74,7 @@ class MatrixSystem extends Component {
       }
 
       const x3Exist = [];
-      for (let i = 1; i < 13; i++) {
+      for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
           .usersActiveX3Levels(this.context.account, i)
           .call();
@@ -94,9 +93,9 @@ class MatrixSystem extends Component {
 
   async loadX4() {
     try {
-      var _x4cost = this.state.cost / 2;
+      var _x4cost = this.state.cost / 1000000;
       const x4Exist = [];
-      for (let i = 1; i < 13; i++) {
+      for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
           .usersActiveX6Levels(this.context.account, i)
           .call();
@@ -109,7 +108,7 @@ class MatrixSystem extends Component {
         _x4cost = _x4cost * 2;
       }
       const x6 = [];
-      for (let i = 1; i < 13; i++) {
+      for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
           .usersX6Matrix(this.context.account, i)
           .call();

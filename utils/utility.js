@@ -1,22 +1,11 @@
-import Web3 from "web3";
+export const loadTronWeb = async () => {
+  const loadWatcher = setInterval(() => {
+    if (window.tronWeb && window.tronWeb.ready) {
+      this.setState({
+        tronWeb: window.tronWeb,
+      });
 
-// Fetching WEB3 Provider
-
-export const loadWeb3 = async () => {
-  try {
-    if (typeof window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      await window.ethereum.enable();
-    } else if (typeof window.web3) {
-      window.web3 = new Web3(window.web3.currentProvider);
-    } else {
-      window.alert(
-        "Non-Ethereum browser detected. You should consider trying MetaMask!"
-      );
+      clearInterval(loadWatcher);
     }
-  } catch (err) {
-    window.alert("Trouble connecting to you web3 browser...");
-  }
+  }, 500);
 };
-
-// Instantiate Contract Object

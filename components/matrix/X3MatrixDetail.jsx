@@ -1,6 +1,6 @@
-import { loadWeb3 } from "../../utils/utility";
+import { loadTronWeb } from "../../utils/utility";
 import { ABI, ADDRESS } from "../../utils/globals";
-import Web3 from "web3";
+import TronWeb from "tronweb";
 import AccountContext from "../../Layout/AccountContext";
 import React, { useContext, useState, useEffect } from "react";
 import ReferalLineDetail from "./x3structure/ReferalLineDetail";
@@ -31,9 +31,7 @@ const X3matrixDetail = (props) => {
 
   const buyLevel = async (_id, _level, _cost, _account) => {
     try {
-      await loadWeb3();
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      const contract = await tronWeb.contract().at(ADDRESS);
 
       await contract.methods
         .buyNewLevel(_id, _level)
@@ -50,9 +48,7 @@ const X3matrixDetail = (props) => {
   };
 
   const addressToId = async (_address, _iterable) => {
-    await loadWeb3();
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    const contract = new web3.eth.Contract(ABI, ADDRESS);
+    const contract = await tronWeb.contract().at(ADDRESS);
     const res = await contract.methods.users(_address).call();
     if (_iterable === 0) {
       const userId = res[0];

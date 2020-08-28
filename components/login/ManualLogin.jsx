@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import AccountContext from "../../Layout/AccountContext";
-import { ABI, ADDRESS } from "../../utils/globals";
-import { loadWeb3 } from "../../utils/utility";
-import Web3 from "web3";
+import { ADDRESS, ABI } from "../../utils/globals";
 import Router from "next/router";
 
 class ManualLogin extends Component {
@@ -10,10 +8,9 @@ class ManualLogin extends Component {
 
   async loadBlockchainData() {
     try {
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      let contract = await tronWeb.contract(ABI, ADDRESS);
       this.setState({ contract });
-      if (this.state.account[1] === "x") {
+      if (this.state.account[0] === "T") {
         const isExists = await contract.methods
           .isUserExists(this.state.account)
           .call();
@@ -33,10 +30,10 @@ class ManualLogin extends Component {
   async login() {
     this.setState({ loading: true });
     try {
-      await loadWeb3();
+      // await loadTronWeb();
       await this.loadBlockchainData();
     } catch (err) {
-      window.alert("Invalid ETH ADDRESS, Checksum doesnt match");
+      window.alert("Invalid TRX ADDRESS, Checksum doesnt match");
       this.setState({ loading: false });
     }
   }
@@ -131,12 +128,15 @@ class ManualLogin extends Component {
           }
           input {
             width: 100%;
-            background: rgba(16, 1, 62, 1);
-            box-shadow: none;
+            background: #1d2026;
+            border-radius: 23px;
+            background: #1d2026;
+            box-shadow: inset 5px 5px 8px #131418, inset -5px -5px 8px #272c34;
+
             outline: none;
             border: none;
             padding: 20px 20px;
-            border-radius: 30px;
+
             font-size: 1.2em;
             margin: 30px 0;
             color: grey;

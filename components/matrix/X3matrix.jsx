@@ -1,6 +1,5 @@
-import { loadWeb3 } from "../../utils/utility";
 import { ABI, ADDRESS } from "../../utils/globals";
-import Web3 from "web3";
+
 import AccountContext from "../../Layout/AccountContext";
 import React, { useContext, useState, useEffect } from "react";
 import ReferalLine from "./x3structure/ReferalLine";
@@ -28,14 +27,12 @@ const X3matrix = (props) => {
 
   const buyLevel = async (_id, _level, _cost, _account) => {
     try {
-      await loadWeb3();
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      const contract = await tronWeb.contract().at(ADDRESS);
 
       await contract.methods
         .buyNewLevel(_id, _level)
         .send({
-          value: _cost,
+          callValue: _cost * 1000000,
           from: _account,
         })
         .then(function (receipt) {
@@ -47,9 +44,7 @@ const X3matrix = (props) => {
   };
 
   const addressToId = async (_address) => {
-    await loadWeb3();
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    const contract = new web3.eth.Contract(ABI, ADDRESS);
+    const contract = await tronWeb.contract().at(ADDRESS);
     const res = await contract.methods.users(_address).call();
     const userId = res[0];
     setDownline1(userId);
@@ -68,7 +63,7 @@ const X3matrix = (props) => {
             <div className="level">
               <b>{props.id}</b>
             </div>
-            <div className="id">{props.cost}TRX</div>
+            <div className="id">{props.cost} TRX</div>
           </div>
           <ReferalLine exist1={exist1} exist2={exist2} exist3={false} />
         </div>
@@ -86,7 +81,7 @@ const X3matrix = (props) => {
             border-radius: 20px;
             font-style: bold;
             font-size: 1.2em;
-            height: 70px;
+            height: 80px;
             overflow: hidden;
             cursor: pointer;
           }
@@ -130,7 +125,8 @@ const X3matrix = (props) => {
                 await buyLevel(1, id, cost, props.account);
               }}
             >
-              <IoIosCart color="#9865ec" font-size="40px" /> for {props.cost}TRX
+              <IoIosCart color="#9865ec" fontSize="40px" /> for
+              <br /> {props.cost}TRX
             </button>
           </div>
           <ReferalLine exist1={exist1} exist2={exist2} exist3={false} />
@@ -141,6 +137,7 @@ const X3matrix = (props) => {
             background: none;
             color: white;
             font-size: 1em;
+            padding: 5px 0;
           }
           .holder {
             width: auto;
@@ -155,7 +152,7 @@ const X3matrix = (props) => {
             border-radius: 20px;
             font-style: bold;
             font-size: 1.2em;
-            height: 70px;
+            height: 80px;
             overflow: hidden;
             cursor: pointer;
           }
@@ -165,7 +162,7 @@ const X3matrix = (props) => {
             border-radius: 20px;
           }
           .id {
-            padding: 20px 20px;
+            padding: 20px 0;
           }
           .items {
             display: grid;

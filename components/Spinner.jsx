@@ -2,7 +2,7 @@ const Spinner = () => {
   return (
     <div className="holder">
       <div className="heart-holder">
-        <div class="lds-circle">
+        <div className="lds-circle">
           <div></div>
         </div>
         <h1>Connecting to the Contract and getting your Dashboard</h1>

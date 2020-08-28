@@ -1,11 +1,8 @@
 import React, { Component } from "react";
-import Web3 from "web3";
 import { ABI, ADDRESS } from "../utils/globals";
-import { loadWeb3 } from "../utils/utility";
 import Router from "next/router";
 import Spinner from "../components/Spinner";
 import Navigation from "../components/Navigation";
-import InfoHeader from "../components/InfoHeader";
 import Sidebar from "../components/sidebar/Sidebar";
 import MatrixSystem from "../components/matrix/MatrixSystem";
 
@@ -18,9 +15,9 @@ class Dashboard extends Component {
   async componentDidMount() {
     try {
       this.setState({ account: this.context.account });
-      await loadWeb3();
       await this.loadBlockchainData();
       this.setState({ loading: false });
+      console.log(this.state);
     } catch (err) {
       console.log("Something went wrong.. Check: " + err);
     }
@@ -28,8 +25,7 @@ class Dashboard extends Component {
 
   async loadBlockchainData() {
     try {
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      let contract = await tronWeb.contract(ABI, ADDRESS);
       this.setState({ contract });
       const address = ADDRESS;
       this.setState({ address });
@@ -37,29 +33,28 @@ class Dashboard extends Component {
       const userId = await this.state.contract.methods
         .users(this.state.account)
         .call();
+
       this.setState({
-        userIds: userId.id,
-        parnterCount: userId.partnersCount,
+        userIds: parseInt(userId.id),
+        parnterCount: parseInt(userId.partnersCount),
       });
       const userCount = await this.state.contract.methods.lastUserId().call();
-      this.setState({ totalUsers: userCount });
-      const balance = await this.state.contract.methods
-        .balances(this.state.account)
-        .call();
+      this.setState({ totalUsers: parseInt(userCount) });
+      const balance = await parseInt(
+        this.state.contract.methods.balances(this.state.account).call()
+      );
       this.setState({ balance });
 
       // Matrix Calls
-      const costs = await contract.methods.registrationCost().call();
-      this.setState({ cost: costs });
+      const costs = await contract.methods.levelPrice(1).call();
+      this.setState({ cost: parseInt(costs) / 1000000 });
 
       // Error Catch -> Fetch the new Data directly from web3 provider after reload
     } catch (err) {
       try {
-        const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-        const accounts = await web3.eth.getAccounts();
-        this.setState({ account: accounts[0] });
-        const contract = new web3.eth.Contract(ABI, ADDRESS);
-        this.setState({ contract });
+        let contract = await tronWeb.contract(ABI, ADDRESS);
+        const accounts = await tronWeb.defaultAddress.base58;
+        this.setState({ account: accounts });
         const address = ADDRESS;
         this.setState({ address });
         const isExists = await contract.methods
@@ -71,14 +66,15 @@ class Dashboard extends Component {
           .users(this.state.account)
           .call();
         this.setState({
-          userIds: userId.id,
-          parnterCount: userId.partnersCount,
+          userIds: parseInt(userId.id),
+          parnterCount: parseInt(userId.partnersCount),
         });
         const userCount = await this.state.contract.methods.lastUserId().call();
-        this.setState({ totalUsers: userCount });
-        const balance = await this.state.contract.methods
+        this.setState({ totalUsers: parseInt(userCount) });
+        const _balance = await this.state.contract.methods
           .balances(this.state.account)
           .call();
+        const balance = parseInt(_balance);
         this.setState({ balance });
       } catch (err) {
         window.alert(

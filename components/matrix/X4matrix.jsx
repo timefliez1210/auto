@@ -1,9 +1,9 @@
 import FirstLine from "./x4structure/FirstLine";
 import SecondLine from "./x4structure/SecondLine";
 import React, { useState, useEffect } from "react";
-import { loadWeb3 } from "../../utils/utility";
+
 import { ABI, ADDRESS } from "../../utils/globals";
-import Web3 from "web3";
+
 import { IoIosCart } from "react-icons/io";
 
 const X4matrix = (props) => {
@@ -47,14 +47,12 @@ const X4matrix = (props) => {
 
   const buyLevel = async () => {
     try {
-      await loadWeb3();
-      const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-      const contract = new web3.eth.Contract(ABI, ADDRESS);
+      const contract = await tronWeb.contract().at(ADDRESS);
 
       await contract.methods
         .buyNewLevel(2, id)
         .send({
-          value: cost,
+          callValue: cost * 1000000,
           from: props.account,
         })
         .then(function (receipt) {
@@ -74,7 +72,7 @@ const X4matrix = (props) => {
             <div className="level">
               <b>{props.id}</b>
             </div>
-            <div className="id">{props.cost}TRX</div>
+            <div className="id">{props.cost} TRX</div>
           </div>
           <FirstLine exist1={exist1} exist2={exist2} />
           <div className="squares">
@@ -158,7 +156,7 @@ const X4matrix = (props) => {
                 await buyLevel();
               }}
             >
-              <IoIosCart color="#9865ec" font-size="40px" /> for {props.cost}TRX
+              <IoIosCart color="#9865ec" fontSize="40px" /> for {props.cost}TRX
             </button>
           </div>
           <FirstLine exist={props.bought} />

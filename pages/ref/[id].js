@@ -1,25 +1,28 @@
 import React, { Component } from "react";
 import Router from "next/router";
-import Web3 from "web3";
+import AccountContext from "../../Layout/AccountContext";
+
 import { ABI, ADDRESS, OWNER } from "../../utils/globals";
-import { loadWeb3 } from "../../utils/utility";
 
 class RefLink extends Component {
+  static contextType = AccountContext;
+  async componentDidMount() {
+    this.setState({ id: Router.query.id });
+  }
   async loadBlockchainData() {
     this.setState({ id: Router.query.id });
-    const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
-    const accounts = await web3.eth.getAccounts();
-    this.setState({ account: accounts[0] });
-    const contract = new web3.eth.Contract(ABI, ADDRESS);
+    let contract = await tronWeb.contract(ABI, ADDRESS);
+    const accounts = await tronWeb.defaultAddress.base58;
+    this.setState({ account: accounts });
     this.setState({ contract });
-    const isExists = await contract.methods
-      .isUserExists(this.state.account)
-      .call();
+    const isExists = await contract.isUserExists(this.state.account).call();
     this.setState({ isExist: isExists });
-    const costs = await contract.methods.registrationCost().call();
+    const _costs = await contract.levelPrice(1).call();
+    const costs = _costs * 5;
     this.setState({ cost: costs });
-    const refererAddress = await contract.methods.userIds(this.state.id).call();
+    const refererAddress = await contract.userIds(this.state.id).call();
     this.setState({ refererAddress });
+
     this.setState({ isLoading: false });
   }
 
@@ -41,7 +44,7 @@ class RefLink extends Component {
       await this.state.contract.methods
         .registrationExt(_refererAddress)
         .send({
-          value: this.state.cost,
+          callValue: this.state.cost,
           from: this.state.account,
         })
         .then(function (receipt) {
@@ -51,90 +54,75 @@ class RefLink extends Component {
   }
 
   render() {
+    const { account, setAccount } = this.context;
     return (
       <>
         <div className="header">
-          <div className="hero-image">
-            <div className="picture-holder"></div>
-          </div>
           <div className="form-part">
+            <img src="/assets/img/logo.png" height="100px" />
             <h1>Register</h1>
-            <p>Your inviter is ID {this.state.id}</p>
+            <p>
+              <b>Your Inviter Is ID {this.state.id}</b>
+              <br />
+              <br />
+            </p>
             <form
               className="automatic"
               onSubmit={async (event) => {
                 event.preventDefault();
-                await loadWeb3();
+
                 await this.loadBlockchainData();
                 await this.register(this.state.refererAddress);
+                const newUser = this.state.account;
+                setAccount(newUser);
               }}
             >
               <button className="auto">Register</button>
+              <br />
+              <br />
             </form>
-
-            <p>Telegram Channel @cryptoofficial</p>
           </div>
         </div>
         <style jsx>{`
           .header {
             width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            background: rgba(16, 1, 62, 1);
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: #242830;
             display: flex;
           }
-          @media only screen and (max-width: 1000px) {
-            .header {
-              height: auto;
-            }
-          }
-          .hero-image {
-            width: 70vw;
-            height: 100vw;
-          }
-          .picture-holder {
-            width: 100%;
-            height: 100vh;
-            background-image: url("/assets/img/hero-picture.jpg");
-            background-repeat: no-repeat;
-            background-size: contain;
-            background-position: center;
-          }
+
           .hero {
             width: 100%;
           }
           .form-part {
-            background: rgba(28, 22, 85, 1);
+            border-radius: 50px;
+            background: #1d2026;
+            box-shadow: 11px 11px 22px #101215, -11px -11px 22px #2a2e37;
             width: 30vw;
-            padding: 60px;
+            padding: 20px;
             color: white;
-            height: 100vh;
+            height: auto;
             text-align: center;
+            margin: auto auto;
           }
 
           p {
             color: grey;
           }
           h1 {
-            margin-top: 15vh;
+            margin-top: 5vh;
             margin-bottom: 5vh;
             font-size: 1.5em;
           }
-          button {
-            width: 100%;
-            text-align: center;
-            padding: 20px 0;
-            border-radius: 30px;
-            color: white;
-            font-size: 1.2em;
-          }
 
           @media only screen and (max-width: 1000px) {
-            .hero-image {
-              display: none;
+            .header {
+              height: auto;
             }
             .form-part {
-              width: 95vw;
+              height: auto;
+              width: 90vw;
               margin: auto auto;
             }
           }
@@ -149,6 +137,14 @@ class RefLink extends Component {
             box-shadow: none;
             outline: none;
             border: none;
+          }
+          button {
+            width: 100%;
+            text-align: center;
+            padding: 20px 0;
+            border-radius: 30px;
+            color: white;
+            font-size: 1.2em;
           }
         `}</style>
       </>

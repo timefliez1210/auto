@@ -1,4 +1,3 @@
-import SidebarContent from "./SidebarContent";
 import Divider from "./Divider";
 import UserContent from "./UserContent";
 import { BASE_URL } from "../../utils/globals";
@@ -27,13 +26,13 @@ const Sidebar = (props) => {
         </div>
         <img src="/assets/img/cube.png" width="100%" />
       </div>
-      <div className="earnings">Hi ich bin</div>
+      <div className="earnings">{props.balance}</div>
       <Divider />
       <UserContent
         title="Affiliate Link"
         placeholder={BASE_URL + "ref/" + props.userIds}
       />
-      <UserContent title="Your Ethereum Wallet" placeholder={props.account} />
+      <UserContent title="Your Tron Wallet" placeholder={props.account} />
       <UserContent title="Smart Contract Address" placeholder={props.address} />
       <Divider />
       <InfoHeader totalUsers={props.totalUsers} />
