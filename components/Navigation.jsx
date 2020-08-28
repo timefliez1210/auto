@@ -41,7 +41,7 @@ const Navigation = () => {
               </a>
             </Link>
           </li>
-          <li>
+          {/* <li>
             <Link href="/partners">
               <a
                 title=""
@@ -52,7 +52,7 @@ const Navigation = () => {
                 Partners
               </a>
             </Link>
-          </li>
+          </li> */}
           {/* <li>
           <Link href="">
             <a title=""onClick={() => {
@@ -60,7 +60,7 @@ const Navigation = () => {
                   }}>Partners</a>
           </Link>
         </li> */}
-          <li>
+          {/* <li>
             <Link href="/statistics">
               <a
                 title=""
@@ -71,7 +71,7 @@ const Navigation = () => {
                 Statistics
               </a>
             </Link>
-          </li>
+          </li> */}
           {/* <li>
           <Link href="">
             <a title=""

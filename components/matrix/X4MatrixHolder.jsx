@@ -19,7 +19,7 @@ const X4MatrixHolder = (props) => {
         <div className="bottom-part">
           <Spinner />
         </div>
-        <p>Hallo ich bin der Lückenfüller Text für die Icones</p>
+
         <style jsx>{`
           .upper-holder {
             margin-bottom: 20px;

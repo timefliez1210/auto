@@ -19,7 +19,9 @@ class Dashboard extends Component {
       this.setState({ loading: false });
       console.log(this.state);
     } catch (err) {
-      console.log("Something went wrong.. Check: " + err);
+      let contract = await tronWeb.contract(ABI, ADDRESS);
+      const accounts = await tronWeb.defaultAddress.base58;
+      this.setState({ account: accounts });
     }
   }
 
@@ -78,7 +80,7 @@ class Dashboard extends Component {
         this.setState({ balance });
       } catch (err) {
         window.alert(
-          "We really cant connect you, are you connected to the MATIC Chain?  " +
+          "We really cant connect you, are you connected to the Tron Chain and logged in to your wallet?  " +
             err
         );
       }

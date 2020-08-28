@@ -26,7 +26,6 @@ const UserContent = (props) => {
               <button className="copy" onClick={copyToClipboard}>
                 <b>Copy</b>
               </button>
-              <button className="etherscan">To Tronscan</button>
             </div>
           )
         }

@@ -26,7 +26,7 @@ const Sidebar = (props) => {
         </div>
         <img src="/assets/img/cube.png" width="100%" />
       </div>
-      <div className="earnings">{props.balance}</div>
+      <div className="earnings">{props.totalUsers} / 100,000</div>
       <Divider />
       <UserContent
         title="Affiliate Link"

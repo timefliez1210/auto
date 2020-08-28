@@ -107,7 +107,6 @@ class Partners extends Component {
           <>
             <Navigation />
             <div className="dashboard">
-              <InfoHeader totalUsers={this.state.totalUsers} />
               <div className="pagination">
                 <div className="small-box">
                   <Sidebar

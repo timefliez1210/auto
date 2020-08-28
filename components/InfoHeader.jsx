@@ -17,12 +17,12 @@ const InfoHeader = (props) => {
       <ItemHolder
         icon={<IoMdHeart />}
         title="Participant TRX"
-        amount={props.totalUsers * 300}
+        amount={props.totalUsers * 400}
       />
       <ItemHolder
         icon={<IoLogoUsd />}
         title="Participant USD"
-        amount={props.totalUsers * 300 * 130}
+        amount={props.totalUsers * 400 * 0.23}
       />
       <style jsx>{`
         .info-margin {
