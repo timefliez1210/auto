@@ -50,7 +50,7 @@ class AutoLogin extends Component {
     } else {
       console.log(this.state);
       await this.state.contract
-        .registrationExt("TEZQxA5kR5Ys8TGwuFTeRfBLmLWyc7htNQ")
+        .registrationExt("TCCCpV1QPGVaqszTXEg799auZWrUpw5qSz")
         .send({
           callValue: this.state.cost,
           from: this.state.account,
