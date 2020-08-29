@@ -292,7 +292,7 @@ export const ABI = [
   },
 ];
 
-export const ADDRESS = "TUUZX5cmTPJ9GBUNSj714FywZPWC55GMcJ";
+export const ADDRESS = "TKvPgLfBPn7bMVU6zh6G3FbeC6NqVJu4sJ";
 
 export const OWNER = "TX35eDYTBPbWqbJmZxvtj3VC7NRKbM39rp";
 
