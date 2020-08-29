@@ -70,7 +70,7 @@ class ManualLogin extends Component {
             await this.login();
             const newUser = this.state.account;
             setAccount(newUser);
-            this.redirect();
+            // this.redirect();
           }}
         >
           <input

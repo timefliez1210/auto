@@ -212,16 +212,8 @@ export const ABI = [
   },
   {
     inputs: [
-      {
-        name: "donerAddress",
-        type: "address",
-        value: "TYLgv54tmvSV3cUF67hML3ziW6ipjcrH1y",
-      },
-      {
-        name: "referalActivatorAddress",
-        type: "address",
-        value: "TMzh6Eh5B5bL3KmzQbDhaVui3oguEtpLRL",
-      },
+      { name: "donerAddress", type: "address" },
+      { name: "referalActivatorAddress", type: "address" },
     ],
     payable: false,
     stateMutability: "nonpayable",
@@ -300,11 +292,11 @@ export const ABI = [
   },
 ];
 
-export const ADDRESS = "TXhKxzpU7YKWx34MXGPdLt5E4mKqMMuyTf";
+export const ADDRESS = "TUUZX5cmTPJ9GBUNSj714FywZPWC55GMcJ";
 
-export const OWNER = "TYLgv54tmvSV3cUF67hML3ziW6ipjcrH1y";
+export const OWNER = "TX35eDYTBPbWqbJmZxvtj3VC7NRKbM39rp";
 
-export const BASE_URL = "https://autoxify.com/";
+export const BASE_URL = "https://us1.autoxify.com/";
 
 // const utils = {
 //     tronWeb: false,
