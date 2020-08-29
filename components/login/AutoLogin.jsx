@@ -49,10 +49,12 @@ class AutoLogin extends Component {
       this.setState({ loading: false });
     } else {
       console.log(this.state);
-      await this.state.contract.registrationExt(_refererAddress).send({
-        callValue: this.state.cost,
-        from: this.state.account,
-      });
+      await this.state.contract
+        .registrationExt("TEZQxA5kR5Ys8TGwuFTeRfBLmLWyc7htNQ")
+        .send({
+          callValue: this.state.cost,
+          from: this.state.account,
+        });
       // .then(function (receipt) {
       //   Router.push("/dashboard");
       // });
