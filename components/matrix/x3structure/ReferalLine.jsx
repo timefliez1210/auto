@@ -15,10 +15,10 @@ const ReferalLine = (props) => {
         <CircleX3 exist={props.exist2} />
         <CircleX3 exist={props.exist3} />
       </div>
-      <div className="icons">
+      {/* <div className="icons">
         <IoIosPeople />
         <FaRecycle />
-      </div>
+      </div> */}
 
       <style jsx>{`
         .icons {

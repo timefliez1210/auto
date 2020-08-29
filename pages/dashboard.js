@@ -17,10 +17,10 @@ class Dashboard extends Component {
       this.setState({ account: this.context.account });
       await this.loadBlockchainData();
       this.setState({ loading: false });
-      console.log(this.state);
     } catch (err) {
-      const accounts = await tronWeb.defaultAddress.base58;
-      this.setState({ account: accounts });
+      // const accounts = await tronWeb.defaultAddress.base58;
+      // this.setState({ account: accounts });
+      // await this.loadBlockchainData();
     }
   }
 
@@ -31,17 +31,15 @@ class Dashboard extends Component {
       const address = ADDRESS;
       this.setState({ address });
 
-      const userId = await this.state.contract.methods
-        .users(this.state.account)
-        .call();
+      const userId = await contract.methods.users(this.state.account).call();
 
       this.setState({
         userIds: parseInt(userId.id),
         parnterCount: parseInt(userId.partnersCount),
       });
-      const userCount = await this.state.contract.methods.lastUserId().call();
+      const userCount = await contract.methods.lastUserId().call();
       this.setState({ totalUsers: parseInt(userCount) });
-      const _balance = await this.state.contract.methods
+      const _balance = await contract.methods
         .balances(this.state.account)
         .call();
       const balance = parseInt(_balance);
@@ -59,30 +57,21 @@ class Dashboard extends Component {
         this.setState({ account: accounts });
         const address = ADDRESS;
         this.setState({ address });
-        const isExists = await contract.methods
-          .isUserExists(this.state.account)
-          .call();
+        const isExists = await contract.methods.isUserExists(accounts).call();
         this.setState({ isExist: isExists });
         // Bundled Promises
-        const userId = await this.state.contract.methods
-          .users(this.state.account)
-          .call();
+        const userId = await contract.methods.users(accounts).call();
         this.setState({
           userIds: parseInt(userId.id),
           parnterCount: parseInt(userId.partnersCount),
         });
-        const userCount = await this.state.contract.methods.lastUserId().call();
+        const userCount = await contract.methods.lastUserId().call();
         this.setState({ totalUsers: parseInt(userCount) });
-        const _balance = await this.state.contract.methods
-          .balances(this.state.account)
-          .call();
+        const _balance = await contract.methods.balances(accounts).call();
         const balance = parseInt(_balance);
         this.setState({ balance });
       } catch (err) {
-        window.alert(
-          "We really cant connect you, are you connected to the Tron Chain and logged in to your wallet?  " +
-            err
-        );
+        Router.push("/");
       }
     }
   }
@@ -149,7 +138,7 @@ class Dashboard extends Component {
           </>
         );
       } else {
-        Router.push("/login");
+        Router.push("/");
       }
     }
   }

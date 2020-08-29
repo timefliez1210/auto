@@ -13,13 +13,12 @@ class MatrixSystem extends Component {
   static contextType = AccountContext;
   async componentDidMount() {
     try {
-      const accounts = await tronWeb.defaultAddress.base58;
-      this.setState({ account: accounts });
+      this.setState({ account: this.context.account });
       await this.loadBlockchainData();
       this.loadX3();
       this.loadX4();
     } catch (err) {
-      window.alert("Something went wrong.. Check: " + err);
+      // window.alert("Something went wrong.. Check: " + err);
     }
   }
 
@@ -30,7 +29,14 @@ class MatrixSystem extends Component {
       const costs = await contract.methods.levelPrice(1).call();
       this.setState({ cost: costs });
     } catch (err) {
-      window.alert("Something went wrong.. Check: " + err);
+      const accounts = await tronWeb.defaultAddress.base58;
+      this.setState({ account: accounts });
+      const contract = await tronWeb.contract().at(ADDRESS);
+      this.setState({ contract });
+      const costs = await contract.methods.levelPrice(1).call();
+      this.setState({ cost: costs });
+      this.loadX3();
+      this.loadX4();
     }
   }
 
@@ -86,10 +92,7 @@ class MatrixSystem extends Component {
       }
       const x3Payload = this.x3Infos(x3Exist, elementsX3);
       this.setState({ x3Payload });
-    } catch (err) {
-      // The coming error happens at reload which clears the context -> first solution: login again
-      Router.push("/login");
-    }
+    } catch (err) {}
   }
 
   async loadX4() {
@@ -120,10 +123,7 @@ class MatrixSystem extends Component {
       }
       const x6Payload = this.x3Infos(x4Exist, x6);
       this.setState({ x6Payload });
-    } catch (err) {
-      // The coming error happens at reload which clears the context -> first solution: login again
-      Router.push("/login");
-    }
+    } catch (err) {}
   }
 
   constructor(props) {

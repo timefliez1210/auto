@@ -13,7 +13,7 @@ const X4matrix = (props) => {
   const [exist4, setExist4] = useState(false);
   const [exist5, setExist5] = useState(false);
   const [exist6, setExist6] = useState(false);
-  const [loading, setLoading] = useState(0);
+  const [loading, setLoading] = useState(false);
   const cost = props.cost;
   const id = props.id;
 
@@ -46,6 +46,7 @@ const X4matrix = (props) => {
   });
 
   const buyLevel = async () => {
+    setLoading(true);
     try {
       const contract = await tronWeb.contract().at(ADDRESS);
 
@@ -57,11 +58,11 @@ const X4matrix = (props) => {
         })
         .then(function (receipt) {
           window.alert("Succes!");
-          setLoading(1);
         });
     } catch (err) {
       window.alert("Something went wrong.. Check: " + err);
     }
+    setLoading(false);
   };
 
   if (props.bought) {
@@ -150,14 +151,16 @@ const X4matrix = (props) => {
         <div className="holder">
           <div className="matrix-head">
             <div className="level">{props.id}</div>
-            <button
+            <div
               className="buy-level"
               onClick={async () => {
                 await buyLevel();
               }}
             >
-              <IoIosCart color="#9865ec" fontSize="40px" /> for {props.cost}TRX
-            </button>
+              {props.cost}
+              TRX
+            </div>
+            <IoIosCart color="#9865ec" className="relative" />
           </div>
           <FirstLine exist={props.bought} />
           <div className="squares">
@@ -172,6 +175,8 @@ const X4matrix = (props) => {
             background: none;
             color: white;
             font-size: 1em;
+
+            padding: 20px 20px;
           }
           .holder {
             width: auto;

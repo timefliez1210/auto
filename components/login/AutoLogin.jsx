@@ -43,7 +43,7 @@ class AutoLogin extends Component {
     this.setState({ loading: true });
 
     await this.loadBlockchainData();
-    console.log(this.state);
+
     if (this.state.isExist) {
       Router.push("/dashboard");
       this.setState({ loading: false });

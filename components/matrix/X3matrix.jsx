@@ -87,12 +87,12 @@ const X3matrix = (props) => {
           }
           .level {
             background: #9865ec;
-            padding: 20px 20px;
+            padding: 25px 20px;
             border-radius: 20px;
             color: black;
           }
           .id {
-            padding: 20px 20px;
+            padding: 25px 20px;
           }
           .items {
             display: grid;
@@ -119,7 +119,7 @@ const X3matrix = (props) => {
         <div className="holder">
           <div className="matrix-head">
             <div className="level">{props.id}</div>
-            <button className="buy-level">{props.cost} TRX</button>
+            <div className="buy-level">{props.cost} TRX</div>
           </div>
           <ReferalLine exist1={exist1} exist2={exist2} exist3={false} />
         </div>
@@ -129,7 +129,7 @@ const X3matrix = (props) => {
             background: none;
             color: white;
             font-size: 1em;
-            padding: 5px 0;
+            padding: 25px 0;
           }
           .holder {
             width: auto;
@@ -150,7 +150,7 @@ const X3matrix = (props) => {
           }
           .level {
             background: #1d2026;
-            padding: 20px 20px;
+            padding: 25px 20px;
             border-radius: 20px;
           }
           .id {
