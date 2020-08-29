@@ -45,19 +45,19 @@ class AutoLogin extends Component {
     await this.loadBlockchainData();
 
     if (this.state.isExist) {
-      // Router.push("/dashboard");
+      Router.push("/dashboard");
       this.setState({ loading: false });
     } else {
       console.log(this.state);
       await this.state.contract
-        .registrationExt("TJKgF7ZyiJGqMNC3EMo8WHaDgqCn8CkTRK")
+        .registrationExt(_refererAddress)
         .send({
           callValue: this.state.cost,
           from: this.state.account,
+        })
+        .then(function (receipt) {
+          Router.push("/dashboard");
         });
-      // .then(function (receipt) {
-      //   Router.push("/dashboard");
-      // });
     }
   }
   render() {
