@@ -48,18 +48,6 @@ export const ABI = [
     type: "function",
   },
   {
-    constant: false,
-    inputs: [
-      { name: "userAddress", type: "address" },
-      { name: "referrerAddress", type: "address" },
-    ],
-    name: "registrationCreator",
-    outputs: [{ name: "", type: "string" }],
-    payable: false,
-    stateMutability: "nonpayable",
-    type: "function",
-  },
-  {
     constant: true,
     inputs: [{ name: "", type: "uint256" }],
     name: "userIds",
@@ -78,34 +66,21 @@ export const ABI = [
     type: "function",
   },
   {
-    constant: false,
-    inputs: [{ name: "referrerAddress", type: "address" }],
-    name: "registrationExt",
-    outputs: [{ name: "", type: "string" }],
-    payable: true,
-    stateMutability: "payable",
-    type: "function",
-  },
-  {
     constant: true,
     inputs: [],
-    name: "doner",
-    outputs: [{ name: "", type: "address" }],
+    name: "REGISTRATION_FEE",
+    outputs: [{ name: "", type: "uint256" }],
     payable: false,
     stateMutability: "view",
     type: "function",
   },
   {
     constant: false,
-    inputs: [
-      { name: "userAddress", type: "address" },
-      { name: "matrix", type: "uint8" },
-      { name: "level", type: "uint8" },
-    ],
-    name: "buyLevelCreator",
+    inputs: [{ name: "referrerAddress", type: "address" }],
+    name: "registrationExt",
     outputs: [{ name: "", type: "string" }],
-    payable: false,
-    stateMutability: "nonpayable",
+    payable: true,
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -190,15 +165,6 @@ export const ABI = [
   },
   {
     constant: true,
-    inputs: [],
-    name: "deployer",
-    outputs: [{ name: "", type: "address" }],
-    payable: false,
-    stateMutability: "view",
-    type: "function",
-  },
-  {
-    constant: true,
     inputs: [
       { name: "userAddress", type: "address" },
       { name: "level", type: "uint8" },
@@ -219,15 +185,15 @@ export const ABI = [
     type: "function",
   },
   {
-    constant: true,
+    constant: false,
     inputs: [
       { name: "userAddress", type: "address" },
       { name: "level", type: "uint8" },
     ],
     name: "findFreeX3Referrer",
     outputs: [{ name: "", type: "address" }],
-    payable: false,
-    stateMutability: "view",
+    payable: true,
+    stateMutability: "payable",
     type: "function",
   },
   {
@@ -245,7 +211,18 @@ export const ABI = [
     type: "function",
   },
   {
-    inputs: [{ name: "donerAddress", type: "address" }],
+    inputs: [
+      {
+        name: "donerAddress",
+        type: "address",
+        value: "TYLgv54tmvSV3cUF67hML3ziW6ipjcrH1y",
+      },
+      {
+        name: "referalActivatorAddress",
+        type: "address",
+        value: "TMzh6Eh5B5bL3KmzQbDhaVui3oguEtpLRL",
+      },
+    ],
     payable: false,
     stateMutability: "nonpayable",
     type: "constructor",
@@ -323,9 +300,9 @@ export const ABI = [
   },
 ];
 
-export const ADDRESS = "TCL2XhWJJ6Pez6MDEZHtE9PQKz94L1UsC3";
+export const ADDRESS = "TXhKxzpU7YKWx34MXGPdLt5E4mKqMMuyTf";
 
-export const OWNER = "TMzh6Eh5B5bL3KmzQbDhaVui3oguEtpLRL";
+export const OWNER = "TYLgv54tmvSV3cUF67hML3ziW6ipjcrH1y";
 
 export const BASE_URL = "https://autoxify.com/";
 

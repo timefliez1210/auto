@@ -19,7 +19,6 @@ class Dashboard extends Component {
       this.setState({ loading: false });
       console.log(this.state);
     } catch (err) {
-      let contract = await tronWeb.contract(ABI, ADDRESS);
       const accounts = await tronWeb.defaultAddress.base58;
       this.setState({ account: accounts });
     }
@@ -42,9 +41,10 @@ class Dashboard extends Component {
       });
       const userCount = await this.state.contract.methods.lastUserId().call();
       this.setState({ totalUsers: parseInt(userCount) });
-      const balance = await parseInt(
-        this.state.contract.methods.balances(this.state.account).call()
-      );
+      const _balance = await this.state.contract.methods
+        .balances(this.state.account)
+        .call();
+      const balance = parseInt(_balance);
       this.setState({ balance });
 
       // Matrix Calls

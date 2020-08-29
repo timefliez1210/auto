@@ -20,7 +20,7 @@ class AutoLogin extends Component {
         .call();
       this.setState({ isExist: isExists });
       const costs = await contract.methods.levelPrice(1).call();
-      const _cost = costs * 2;
+      const _cost = costs * 5;
       this.setState({ cost: _cost });
       this.setState({ isLoading: false });
     } catch (err) {
@@ -57,7 +57,6 @@ class AutoLogin extends Component {
         })
         .then(function (receipt) {
           Router.push("/dashboard");
-          this.setState({ loading: false });
         });
     }
   }

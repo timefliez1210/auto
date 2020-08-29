@@ -13,7 +13,8 @@ class MatrixSystem extends Component {
   static contextType = AccountContext;
   async componentDidMount() {
     try {
-      // await loadTronWeb();
+      const accounts = await tronWeb.defaultAddress.base58;
+      this.setState({ account: accounts });
       await this.loadBlockchainData();
       this.loadX3();
       this.loadX4();
@@ -48,7 +49,7 @@ class MatrixSystem extends Component {
       const x3 = [];
       for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
-          .usersX3Matrix(this.context.account, i)
+          .usersX3Matrix(this.state.account, i)
           .call();
         x3.push({
           level: i,
@@ -76,7 +77,7 @@ class MatrixSystem extends Component {
       const x3Exist = [];
       for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
-          .usersActiveX3Levels(this.context.account, i)
+          .usersActiveX3Levels(this.state.account, i)
           .call();
         x3Exist.push({
           id: i,
@@ -97,7 +98,7 @@ class MatrixSystem extends Component {
       const x4Exist = [];
       for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
-          .usersActiveX6Levels(this.context.account, i)
+          .usersActiveX6Levels(this.state.account, i)
           .call();
         x4Exist.push({
           id: i,
@@ -110,7 +111,7 @@ class MatrixSystem extends Component {
       const x6 = [];
       for (let i = 1; i < 21; i++) {
         const res = await this.state.contract.methods
-          .usersX6Matrix(this.context.account, i)
+          .usersX6Matrix(this.state.account, i)
           .call();
         x6.push({
           id: i,
