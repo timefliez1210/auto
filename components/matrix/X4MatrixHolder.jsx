@@ -14,7 +14,7 @@ const X4MatrixHolder = (props) => {
     return (
       <div className="upper-holder">
         <div className="top-part">
-          <h1>Forsage x4</h1>
+          <h1>Autoxify Manual X4</h1>
         </div>
         <div className="bottom-part">
           <Spinner />
