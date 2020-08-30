@@ -60,7 +60,8 @@ class RefLink extends Component {
         <div className="header">
           <div className="form-part">
             <img src="/assets/img/logo.png" height="100px" />
-            <h1>Register</h1>
+            <h1>Due to heavy issues we are on hold.</h1>
+            {/* <h1>Register</h1>
             <p>
               <b>Your Inviter Is ID {this.state.id}</b>
               <br />
@@ -80,7 +81,7 @@ class RefLink extends Component {
               <button className="auto">Register</button>
               <br />
               <br />
-            </form>
+            </form> */}
           </div>
         </div>
         <style jsx>{`

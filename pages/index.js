@@ -8,6 +8,8 @@ const Login = () => {
         <div className="header">
           <div className="form-part">
             <img src="assets/img/logo.png" height="100px" />
+            <h1>Due to heavy issues we are on hold.</h1>
+            {/* <img src="assets/img/logo.png" height="100px" />
             <h1>To View Accounts Enter ID Or TRX Wallet Address</h1>
             <ManualLogin />
             <h1>The entrance to the office</h1>
@@ -15,7 +17,7 @@ const Login = () => {
               For access to all the functions of your personal account, use
               Login:
             </p>
-            <AutoLogin />
+            <AutoLogin /> */}
           </div>
         </div>
         <style jsx>{`
